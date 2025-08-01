@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My First GitHub Page</title>
-  </head>
-  <body>
-    <h1>Xin chào từ GitHub Pages!</h1>
-    <p>Đây là trang web đầu tiên của tôi.</p>
-  </body>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Tin tức tổng hợp</title>
+</head>
+<body>
+  <h1>Tin tức tổng hợp</h1>
+  <div id="news"></div>
+  <script>
+    fetch('news.json')
+      .then(response => response.json())
+      .then(data => {
+        const newsDiv = document.getElementById('news');
+        data.forEach(item => {
+          const p = document.createElement('p');
+          p.innerHTML = `<strong>${item.title}</strong> (${item.source}): <a href="${item.url}">${item.url}</a>`;
+          newsDiv.appendChild(p);
+        });
+      });
+  </script>
+</body>
 </html>
