@@ -1,23 +1,36 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Tin tức tổng hợp</title>
+    <title>Tổng hợp tin tức</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; }
+        .article { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; }
+        .source { font-weight: bold; color: #333; }
+        .date { color: #666; font-size: 0.9em; }
+    </style>
 </head>
 <body>
-  <h1>Tin tức tổng hợp</h1>
-  <div id="news"></div>
-  <script>
-    fetch('news.json')
-      .then(response => response.json())
-      .then(data => {
-        const newsDiv = document.getElementById('news');
-        data.forEach(item => {
-          const p = document.createElement('p');
-          p.innerHTML = `<strong>${item.title}</strong> (${item.source}): <a href="${item.url}">${item.url}</a>`;
-          newsDiv.appendChild(p);
-        });
-      });
-  </script>
+    <h1>Tổng hợp tin tức tự động</h1>
+    <div id="news-container"></div>
+
+    <script>
+        fetch('data/news-summary.json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('news-container');
+                container.innerHTML = `<p class="date">Cập nhật lúc: ${data.date}</p>`;
+                
+                data.articles.forEach(article => {
+                    const articleDiv = document.createElement('div');
+                    articleDiv.className = 'article';
+                    articleDiv.innerHTML = `
+                        <p class="source">Nguồn: ${article.source}</p>
+                        <div>${article.content.substring(0, 500)}...</div>
+                    `;
+                    container.appendChild(articleDiv);
+                });
+            })
+            .catch(error => console.error('Error loading news:', error));
+    </script>
 </body>
 </html>
