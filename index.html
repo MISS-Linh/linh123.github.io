@@ -1,1 +1,57 @@
-<a href="https://tuoitre.vn/hai-nguoi-tu-vong-mot-nguoi-bi-thuong-nang-sau-khi-o-to-huc-duoi-xe-cho-rac-20250805140516346.htm"><img src="https://cdn2.tuoitre.vn/thumb_w/1200/471584752817336320/2025/8/5/edit-thuong-vong-17543773791741508030716-0-0-960-1536-crop-17543773868421782830921.jpeg" /></a>3 người thương vong sau khi ô tô điện húc trực diện vào đuôi xe tải chở rác đang dừng lấy rác ven quốc lộ 1 ở tỉnh Vĩnh Long.
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tổng hợp tin tức tự động</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .source-section { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        .source-title { color: #d32f2f; font-size: 1.5em; }
+        .article { margin: 15px 0; padding: 10px; background: #f9f9f9; border-radius: 5px; }
+        .article-title { font-weight: bold; color: #1976d2; }
+        .last-updated { color: #666; font-style: italic; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Tổng hợp tin tức tự động</h1>
+    <div id="last-updated" class="last-updated"></div>
+    <div id="news-container"></div>
+
+    <script>
+        fetch('data/news-data.json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('last-updated').textContent = `Cập nhật lần cuối: ${data.lastUpdated}`;
+                
+                const container = document.getElementById('news-container');
+                
+                // Hiển thị tin từ VnExpress
+                if (data.sources.vnexpress.length > 0) {
+                    const sourceDiv = document.createElement('div');
+                    sourceDiv.className = 'source-section';
+                    sourceDiv.innerHTML = '<h2 class="source-title">VnExpress</h2>';
+                    
+                    data.sources.vnexpress.slice(0, 5).forEach(article => {
+                        const articleDiv = document.createElement('div');
+                        articleDiv.className = 'article';
+                        articleDiv.innerHTML = `
+                            <div class="article-title">${article.title}</div>
+                            <div>${article.description || ''}</div>
+                        `;
+                        sourceDiv.appendChild(articleDiv);
+                    });
+                    
+                    container.appendChild(sourceDiv);
+                }
+
+                // Hiển thị tin từ Tuổi Trẻ (tương tự)
+                // Hiển thị tin từ Dân Trí, Báo Mới
+            })
+            .catch(error => {
+                console.error('Error loading news:', error);
+                document.getElementById('news-container').innerHTML = 
+                    '<p>Không thể tải dữ liệu tin tức. Vui lòng thử lại sau.</p>';
+            });
+    </script>
+</body>
+</html>
