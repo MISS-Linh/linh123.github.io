@@ -1,7 +1,5 @@
-// Lấy phần HTML từ step parse RSS
-const newHtml = steps["code"].$return_value;
+'const newHtml = steps["code"].$return_value;
 
-// Tạo nội dung mới cho index.html
 const updatedContent = `
 <html>
   <head><meta charset="UTF-8"><title>Tin tức VNExpress</title></head>
@@ -10,4 +8,5 @@ const updatedContent = `
   </body>
 </html>
 `;
-Buffer.from(updatedContent).toString("base64"); // GitHub API yêu cầu base64
+Buffer.from(updatedContent).toString("base64"); 
+'
